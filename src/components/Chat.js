@@ -1,61 +1,179 @@
-import { useState } from 'react';
-import Message from './Message';
-import ChatInput from './ChatInput';
-import styled from 'styled-components';
+// src/components/Chat.js
+import React, { useState, useEffect, useRef } from 'react';
+import './chatbot.css'; // Atualizado para pasta components
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 90vh;
-  background: black;
-  color: white;
-`;
+const mainMenu = [
+  "1 - Datas",
+  "2 - Estatísticas",
+  "3 - Informações Gerais",
+];
 
-const Messages = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-`;
+const statisticsMenu = [
+  "1 - Fulano",
+  "2 - Ciclano",
+  "3 - Bicicletano",
+  "4 - Voltar ao menu principal",
+];
 
-const Chat = () => {
+const datesMenu = [
+  "1 - Janeiro",
+  "2 - Fevereiro",
+  "3 - Março",
+  "4 - Abril",
+  "5 - Maio",
+  "6 - Junho",
+  "7 - Julho",
+  "8 - Agosto",
+  "9 - Setembro",
+  "10 - Outubro",
+  "11 - Novembro",
+  "12 - Dezembro",
+  "13 - Voltar ao menu principal",
+];
+
+function Chat() {
   const [messages, setMessages] = useState([
-    { text: 'Fala, fã da FURIA! O que você quer saber hoje?', isBot: true }
+    { text: "Olá Furioso! Seja bem-vindo(a) ao canal de atendimento da FURIA.", sender: "bot" },
+    { text: "Como podemos ajudar? Digite uma das opções abaixo para continuar:", sender: "bot" },
+    { text: mainMenu.join("\n"), sender: "bot" }
   ]);
+  const [menuLevel, setMenuLevel] = useState("main");
+  const [input, setInput] = useState("");
+  const [currentMonth, setCurrentMonth] = useState(null);
+  const messagesEndRef = useRef(null);
 
-  const handleSend = (text) => {
-    setMessages(prev => [...prev, { text, isBot: false }]);
-    respostaAutomatica(text);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const respostaAutomatica = (text) => {
-    const resposta = text.toLowerCase();
-    let botMessage = '';
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-    if (resposta.includes('jogo')) {
-      botMessage = 'O próximo jogo da FURIA é dia 27/04 às 18h (horário de Brasília)!';
-    } else if (resposta.includes('estatística')) {
-      botMessage = 'KSCERATO: 1.18 rating | yuurih: 1.14 rating | arT: 0.98 rating.';
-    } else if (resposta.includes('curiosidade')) {
-      botMessage = 'Você sabia que o arT é conhecido por rushar até quando não precisa? 😎';
-    } else if (resposta.includes('frase')) {
-      botMessage = '“Aqui é FURIA, irmão. Não existe medo, só vontade de ganhar.” 💪';
-    } else {
-      botMessage = 'Não entendi... mas se for da FURIA, tamo junto! 🖤';
-    }
+  const handleSend = () => {
+    if (input.trim() === "") return;
+
+    const userMessage = { text: input, sender: "user" };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setInput("");
 
     setTimeout(() => {
-      setMessages(prev => [...prev, { text: botMessage, isBot: true }]);
-    }, 800);
+      handleBotResponse(input.trim());
+    }, 500);
+  };
+
+  const handleBotResponse = (userInput) => {
+    if (menuLevel === "main") {
+      switch (userInput) {
+        case "1":
+          setMenuLevel("dates");
+          setMessages((prev) => [
+            ...prev,
+            { text: "Você escolheu Datas. Escolha um mês:", sender: "bot" },
+            { text: datesMenu.join("\n"), sender: "bot" },
+          ]);
+          break;
+        case "2":
+          setMenuLevel("statistics");
+          setMessages((prev) => [
+            ...prev,
+            { text: "Você escolheu Estatísticas. Escolha um jogador:", sender: "bot" },
+            { text: statisticsMenu.join("\n"), sender: "bot" },
+          ]);
+          break;
+        case "3":
+          setMessages((prev) => [
+            ...prev,
+            { text: "Informações Gerais da FURIA: Somos uma organização de eSports brasileira fundada em 2017!", sender: "bot" },
+          ]);
+          break;
+        default:
+          setMessages((prev) => [
+            ...prev,
+            { text: "Opção inválida. Por favor, digite um número válido.", sender: "bot" },
+          ]);
+      }
+    } else if (menuLevel === "statistics") {
+      if (userInput === "4") {
+        backToMainMenu();
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { text: `Exibindo estatísticas para o jogador ${userInput}.`, sender: "bot" },
+        ]);
+      }
+    } else if (menuLevel === "dates") {
+      if (userInput === "13") {
+        backToMainMenu();
+      } else {
+        const monthName = datesMenu[parseInt(userInput) - 1]?.split(" - ")[1];
+        if (monthName) {
+          setCurrentMonth(monthName);
+          setMenuLevel("monthInfo");
+          setMessages((prev) => [
+            ...prev,
+            { text: `Você selecionou ${monthName}. Aqui estão as datas da FURIA para ${monthName}:`, sender: "bot" },
+            { text: `- 01/${userInput}/2024: Torneio ABC\n- 15/${userInput}/2024: Campeonato XYZ`, sender: "bot" },
+            { text: "Digite:\n1 - Voltar para seleção de meses\n2 - Voltar ao menu principal", sender: "bot" },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            { text: "Opção inválida. Por favor, escolha um mês válido.", sender: "bot" },
+          ]);
+        }
+      }
+    } else if (menuLevel === "monthInfo") {
+      if (userInput === "1") {
+        setMenuLevel("dates");
+        setMessages((prev) => [
+          ...prev,
+          { text: "Escolha um mês:", sender: "bot" },
+          { text: datesMenu.join("\n"), sender: "bot" },
+        ]);
+      } else if (userInput === "2") {
+        backToMainMenu();
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { text: "Opção inválida. Digite 1 ou 2.", sender: "bot" },
+        ]);
+      }
+    }
+  };
+
+  const backToMainMenu = () => {
+    setMenuLevel("main");
+    setMessages((prev) => [
+      ...prev,
+      { text: "Voltando ao menu principal...", sender: "bot" },
+      { text: mainMenu.join("\n"), sender: "bot" },
+    ]);
   };
 
   return (
-    <Container>
-      <Messages>
-        {messages.map((msg, idx) => <Message key={idx} {...msg} />)}
-      </Messages>
-      <ChatInput onSend={handleSend} />
-    </Container>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', backgroundColor: '#121212' }}>
+      <div className="chat-container" style={{ flex: 1 }}>
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.sender === "bot" ? "bot-message" : "user-message"}`}>
+            {msg.text}
+          </div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+      <div className="input-container">
+        <input
+          type="text"
+          className="input-field"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          placeholder="Digite o número..."
+        />
+        <button onClick={handleSend} className="send-button">Enviar</button>
+      </div>
+    </div>
   );
-};
+}
 
 export default Chat;
