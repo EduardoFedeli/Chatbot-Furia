@@ -1,5 +1,5 @@
 body {
-  background-color: #6c6c75; /* Um cinza bem clarinho, clean */
+  background-color: #6c6c75; 
   margin: 0;
   padding: 0;
   height: 100vh;
@@ -7,19 +7,19 @@ body {
   overflow: hidden; /* Evita rolagem */
 }
 
-/* Estilo da imagem de fundo */
+
 #fundo {
   position: fixed;
   top: 0;
   left: 0;
-  width: 50vw; /* 50% da largura da tela */
-  height: 100vh; /* 100% da altura da tela */
+  width: 50vw; 
+  height: 100vh; 
   object-fit: cover; /* Faz a imagem cobrir sem distorcer */
-  opacity: 0.08; /* Ainda mais discreta agora */
+  opacity: 0.08; 
   z-index: -1;
 }
 
-/* Estilo do container do chat */
+
 .chat-container {
   width: 100%;
   max-width: 400px;
@@ -33,10 +33,10 @@ body {
   overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra leve preta */
   position: relative;
-  z-index: 1; /* Garante que fique na frente da imagem */
+  z-index: 1; 
 }
 
-/* Área das mensagens */
+
 .messages {
   flex: 1;
   padding: 15px;
@@ -46,7 +46,7 @@ body {
   gap: 10px;
 }
 
-/* Estilos das mensagens */
+
 .message {
   padding: 10px;
   border-radius: 10px;
@@ -55,15 +55,15 @@ body {
 }
 
 .message.bot {
-  background: #e0e0e0; /* Bolha cinza clara pro bot */
-  color: #333333; /* Texto cinza escuro */
+  background: #e0e0e0; 
+  color: #333333; 
   align-self: flex-start;
   border: 1px solid #ddd;
 }
 
 .message.user {
-  background: #c2c2c2; /* Bolha branca para o usuário */
-  color: #000000; /* Texto preto */
+  background: #c2c2c2; 
+  color: #000000; 
   align-self: flex-end;
   border: 1px solid #000000;
 }
@@ -72,7 +72,7 @@ body {
 .input-area {
   display: flex;
   padding: 10px;
-  background: #000000; /* Área de input também mais clara */
+  background: #000000; 
 }
 
 .input-area input {
@@ -87,7 +87,7 @@ body {
 
 .input-area button {
   padding: 10px 15px;
-  background: #e7ebe7; /* Verde bonito pro botão */
+  background: #e7ebe7; 
   color: rgb(0, 0, 0);
   font-weight: bold;
   border: none;
@@ -97,5 +97,5 @@ body {
 }
 
 .input-area button:hover {
-  background: #45a049; /* Verde mais escuro no hover */
+  background: #45a049; 
 }
