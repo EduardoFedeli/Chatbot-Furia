@@ -1,54 +1,101 @@
-/* src/styles/chatbot.css */
+body {
+  background-color: #6c6c75; /* Um cinza bem clarinho, clean */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  position: relative;
+  overflow: hidden; /* Evita rolagem */
+}
 
+/* Estilo da imagem de fundo */
+#fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50vw; /* 50% da largura da tela */
+  height: 100vh; /* 100% da altura da tela */
+  object-fit: cover; /* Faz a imagem cobrir sem distorcer */
+  opacity: 0.08; /* Ainda mais discreta agora */
+  z-index: -1;
+}
+
+/* Estilo do container do chat */
 .chat-container {
+  width: 100%;
+  max-width: 400px;
+  height: 600px;
+  margin: 50px auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #121212;
-  color: #ffffff;
-  padding: 20px;
+  border: 3px solid #020202; /* Borda cinza clara agora */
+  border-radius: 10px;
+  background: #aca7a7; /* Fundo branco no chat para ficar clean */
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra leve preta */
+  position: relative;
+  z-index: 1; /* Garante que fique na frente da imagem */
+}
+
+/* Área das mensagens */
+.messages {
+  flex: 1;
+  padding: 15px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
+/* Estilos das mensagens */
 .message {
-  max-width: 70%;
-  margin-bottom: 12px; /* <<< Espaçamento entre mensagens, ajuste aqui se quiser */
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 16px;
+  padding: 10px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  max-width: 80%;
 }
 
-.bot-message {
+.message.bot {
+  background: #e0e0e0; /* Bolha cinza clara pro bot */
+  color: #333333; /* Texto cinza escuro */
   align-self: flex-start;
-  background-color: #1f1f1f;
+  border: 1px solid #ddd;
 }
 
-.user-message {
+.message.user {
+  background: #c2c2c2; /* Bolha branca para o usuário */
+  color: #000000; /* Texto preto */
   align-self: flex-end;
-  background-color: #075e54;
-  color: #ffffff;
+  border: 1px solid #000000;
 }
 
-.input-container {
+/* Área de entrada de texto */
+.input-area {
   display: flex;
   padding: 10px;
-  background-color: #1f1f1f;
+  background: #000000; /* Área de input também mais clara */
 }
 
-.input-field {
+.input-area input {
   flex: 1;
   padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #333;
   margin-right: 10px;
 }
 
-.send-button {
-  background-color: #075e54;
+.input-area button {
+  padding: 10px 15px;
+  background: #e7ebe7; /* Verde bonito pro botão */
+  color: rgb(0, 0, 0);
+  font-weight: bold;
   border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s;
+}
+
+.input-area button:hover {
+  background: #45a049; /* Verde mais escuro no hover */
 }
