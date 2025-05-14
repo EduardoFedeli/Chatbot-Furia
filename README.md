@@ -15,7 +15,7 @@ cd chatbot-react
 2. Instale as Dependências
 npm install
 3. Rode o Projeto
-npm run dev
+npm start
 
 🧠 Funcionalidades
 Enviar mensagens para o chatbot.
