@@ -35,7 +35,8 @@ Vite
 CSS Puro
 
 📸 Capturas de Tela
-image.png
+![image](https://github.com/user-attachments/assets/62c45eef-df7a-49c4-bd76-cbf8a5cf3117)
+
 
 📌 Observações
 Atualmente, o bot envia uma resposta padrão. Para integrar com uma IA real (como OpenAI), seria necessário adicionar chamadas HTTP utilizando uma API Key.
